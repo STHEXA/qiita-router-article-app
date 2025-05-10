@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
-import { Article, type ArticleJson } from "~/admin/Article";
+import { Article, type ArticleJson } from "~/domain/Article";
 
 export function meta({}: Route.MetaArgs) {
   return [
