@@ -1,6 +1,8 @@
 import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
 import { Article, type ArticleJson } from "~/domain/Article";
+import { motion } from "motion/react";
+import BlogCard from "~/components/BlogCard";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -33,15 +35,20 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { articles } = loaderData;
   return (
-    <div>
-      <div className="flex-1 sm:ml-64">
-        <h1>記事一覧</h1>
-        <div className="container mx-auto px-4 py-8">
+    <div className="flex-1 sm:ml-64">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="container mx-auto px-4 py-8"
+      >
+        <h2 className="mb-6 text-3xl font-bold text-gray-300">記事検索</h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
-            <p key={article.url}>{article.title}</p>
+            <BlogCard key={article.url} article={article} />
           ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

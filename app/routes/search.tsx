@@ -2,6 +2,9 @@ import { useEffect, useRef } from "react";
 import { useFetcher, useLoaderData } from "react-router";
 import { Article, type ArticleJson } from "~/domain/Article";
 import type { Route } from "../+types/root";
+import BlogCardWithFavorite from "~/components/BlogCardWithFavorite";
+import { SearchIcon } from "lucide-react";
+import { motion } from "motion/react";
 
 async function fetchArticles(keywords?: string) {
   const query = keywords
@@ -66,33 +69,42 @@ export default function search() {
     }
   }, [fetcher]);
   return (
-    <div className="flex-1 sm:ml-64">
-      <div>
-        <fetcher.Form method="post" ref={formRef}>
-          <input type="text" name="keywords" />
-          <button type="submit" name="_action" value="search">
-            Submit
+    <div className="flex sm:ml-64">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="container mx-auto px-4 py-8"
+      >
+        <h2 className="mb-6 text-3xl font-bold text-gray-300">記事検索</h2>
+        <fetcher.Form
+          ref={formRef}
+          action="/search"
+          method="post"
+          className="mb-8 flex"
+        >
+          <input
+            type="text"
+            name="keywords"
+            placeholder="キーワードを入力..."
+            className="flex-grow rounded-l-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+          />
+          <button
+            type="submit"
+            name="_action"
+            value="search"
+            className="flex items-center rounded-r-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
+          >
+            <SearchIcon className="mr-2 h-5 w-5" />
+            検索
           </button>
         </fetcher.Form>
-      </div>
-      <div>
-        {articles.map((article) => (
-          <div key={article.url}>
-            <p>{article.title}</p>
-            <fetcher.Form method="post">
-              <input
-                type="hidden"
-                name="title"
-                value={article.title}
-                readOnly
-              />
-              <button type="submit" name="_action" value="like">
-                ★
-              </button>
-            </fetcher.Form>
-          </div>
-        ))}
-      </div>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {articles.map((article) => (
+            <BlogCardWithFavorite key={article.url} article={article} />
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }
