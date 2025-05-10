@@ -9,7 +9,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+export async function loader({ params }: Route.LoaderArgs) {
   const res = await fetch(`https://qiita.com/api/v2/authenticated_user/items`, {
     headers: {
       Authorization: `Bearer b2ae6b758c9e6fb87f07ac5d111f4e5de565e9d0`,
