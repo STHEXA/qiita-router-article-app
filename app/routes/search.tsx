@@ -11,11 +11,16 @@ async function fetchArticles(keywords?: string) {
     ? `user:Sicut_study+title:${keywords}`
     : "user:Sicut_study";
 
+  const token = process.env.QIITA_API_TOKEN;
+  if (!token) {
+    throw new Error("QIITA_API_TOKEN is not set in environment variables.");
+  }
+
   const res = await fetch(
     `https://qiita.com/api/v2/items?page=1&per_page=20&query=${query}`,
     {
       headers: {
-        Authorization: `Bearer b2ae6b758c9e6fb87f07ac5d111f4e5de565e9d0`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );
