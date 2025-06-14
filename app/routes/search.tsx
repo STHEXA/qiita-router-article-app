@@ -11,7 +11,7 @@ async function fetchArticles(keywords?: string) {
     ? `user:Sicut_study+title:${keywords}`
     : "user:Sicut_study";
 
-  const token = process.env.QIITA_API_TOKEN;
+  const token = process.env.VITE_QIITA_API_TOKEN;
   if (!token) {
     throw new Error("QIITA_API_TOKEN is not set in environment variables.");
   }

@@ -4,11 +4,15 @@ import BlogCard from "~/components/BlogCard";
 import { motion } from "motion/react";
 
 export async function loader({ params }: Route.LoaderArgs) {
+  const token = process.env.VITE_QIITA_API_TOKEN;
+  if (!token) {
+    throw new Error("QIITA_API_TOKEN is not set in environment variables.");
+  }
   const res = await fetch(
     `https://qiita.com/api/v2/items?page=1&per_page=5&query=user%3ASicut_study`,
     {
       headers: {
-        Authorization: `Bearer b2ae6b758c9e6fb87f07ac5d111f4e5de565e9d0`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );
